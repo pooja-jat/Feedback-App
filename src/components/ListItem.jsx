@@ -28,7 +28,7 @@ const ListItem = ({ feedback }) => {
           onClick={() => handleEdit(feedback)}
           className="btn btn-warning btn-sm mx-2 "
         >
-        
+          Edit
         </button>
         <button
           onClick={() => handleRemove(feedback.id)}
