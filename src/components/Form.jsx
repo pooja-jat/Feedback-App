@@ -2,29 +2,31 @@ import React, { useContext, useEffect, useState } from "react";
 import FeedbackContext from "../context/FeedbackContext";
 
 const Form = () => {
-  const { addFeedback, edit, updateFeedback } = useContext(FeedbackContext);
+  const { dispatch, edit } = useContext(FeedbackContext);
 
   const [rating, setRating] = useState(1);
   const [review, setReview] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (edit.isEdit) {
-      updateFeedback({ id: edit.feedback.id, rating, review });
-    } else {
-      addFeedback(rating, review);
-    }
+
+    !edit.isEdit
+      ? dispatch({
+          type: "ADD_FEEDBACK",
+          payload: { id: crypto.randomUUID(), rating, review },
+        })
+      : dispatch({
+          type: "UPDATE_FEEDBACK",
+          payload: { id: edit.feedback.id, rating, review },
+        });
 
     setRating(1);
     setReview("");
   };
 
   useEffect(() => {
-  
-    if (edit.feedback.rating) {
+    if (edit.isEdit) {
       setRating(edit.feedback.rating);
-    }
-    if (edit.feedback.review) {
       setReview(edit.feedback.review);
     }
   }, [edit]);
@@ -52,11 +54,10 @@ const Form = () => {
         required
       ></textarea>
       <button type="submit" className="btn btn-success w-100 my-2">
-        Submit Review
+        {edit ? "Update" : "Submit"} Review
       </button>
     </form>
   );
 };
 
 export default Form;
-

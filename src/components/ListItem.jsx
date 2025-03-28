@@ -3,20 +3,35 @@ import { useContext } from "react";
 import FeedbackContext from "../context/FeedbackContext";
 
 const ListItem = ({ feedback }) => {
-  const { removeFeedback, editFeedback } = useContext(FeedbackContext);
+  const { dispatch } = useContext(FeedbackContext);
+
+  const handleRemove = (id) => {
+    dispatch({
+      type: "REMOVE_FEEDBACK",
+      payload: id,
+    });
+  };
+
+  const handleEdit = (feedback) => {
+    dispatch({
+      type: "EDIT_FEEDBACK",
+      payload: feedback,
+    });
+  };
+
   return (
     <li className="list-group-item">
       <h1>Rating: {feedback.rating} </h1>
       <p>Review: {feedback.review}</p>
       <span className="float-end">
         <button
-          onClick={() => editFeedback(feedback)}
+          onClick={() => handleEdit(feedback)}
           className="btn btn-warning btn-sm mx-2 "
         >
-          Edit
+        
         </button>
         <button
-          onClick={() => removeFeedback(feedback.id)}
+          onClick={() => handleRemove(feedback.id)}
           className="btn btn-danger btn-sm mx-2 "
         >
           Delete

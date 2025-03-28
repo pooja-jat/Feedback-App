@@ -7,23 +7,14 @@ const FeedbackContext = createContext();
 export const FeedbackProvider = ({ children }) => {
   const initialState = {
     feedbacks: [{ id: 1, rating: 5, review: "I Am From Reducer" }],
-    edit: { feedback: {}, isEdit: false },
+    edit: { feedback: {},
+     isEdit: false ,
+    },
   };
 
   const [state, dispatch] = useReducer(feedbackReducer, initialState);
-
-  const addFeedback = (rating, review) => {};
-
-  const removeFeedback = (id) => {};
-
-  const editFeedback = (oldFeedback) => {};
-
-  const updateFeedback = (updatedFeedback) => {};
-
   return (
-    <FeedbackContext.Provider
-      value={{ feedbacks: state.feedbacks, edit: state.edit }}
-    >
+    <FeedbackContext.Provider value={{ ...state, dispatch }}>
       {children}
     </FeedbackContext.Provider>
   );
